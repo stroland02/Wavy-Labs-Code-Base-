@@ -1,0 +1,65 @@
+name: Python AI Backend Tests
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'wavy-ai/**'
+      - '.github/workflows/python-tests.yml'
+  pull_request:
+    paths:
+      - 'wavy-ai/**'
+
+jobs:
+  test:
+    name: pytest (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest, macos-14]
+        python: ['3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      - name: Install test dependencies
+        working-directory: wavy-ai
+        run: |
+          python -m pip install --upgrade pip
+          # Models are lazy-loaded and mocked in tests — heavy ML packages
+          # (torch, demucs, bark, llama-cpp-python) are NOT needed to run the test suite.
+          pip install \
+            pyzmq \
+            loguru \
+            appdirs \
+            lark \
+            pandas \
+            mido \
+            pretty_midi \
+            pydantic \
+            elevenlabs \
+            pytest \
+            pytest-asyncio \
+            pytest-timeout \
+            pytest-cov
+
+      - name: Run tests
+        working-directory: wavy-ai
+        env:
+          PYTHONIOENCODING: utf-8
+        run: pytest tests/ -v --timeout=120
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results-${{ matrix.os }}-py${{ matrix.python }}
+          path: wavy-ai/tests/results/
+          if-no-files-found: ignore

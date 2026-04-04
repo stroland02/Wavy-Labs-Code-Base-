@@ -1,0 +1,37 @@
+# Wavy Labs AI Backend — Lightweight base dependencies (installer default)
+# Heavy ML stack (torch, demucs, transformers) is intentionally excluded.
+# Users who want GPU stem splitting can install torch separately via the
+# "CUDA 12.6" optional component in the installer, or manually:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu126
+
+# ── Serving ───────────────────────────────────────────────────────────────────
+pyzmq>=25.1.2
+python-dotenv>=1.0.0
+
+# ── Audio I/O ─────────────────────────────────────────────────────────────────
+soundfile>=0.12.1
+numpy>=1.26.0
+scipy>=1.12.0
+pyloudnorm>=0.1.1
+pedalboard>=0.9.0
+librosa>=0.10.1
+
+# ── MIDI / Music theory ───────────────────────────────────────────────────────
+lark>=1.1.9
+mido>=1.3.0
+
+# ── AI / LLM APIs ─────────────────────────────────────────────────────────────
+anthropic>=0.25.0
+groq>=0.4.0
+elevenlabs>=1.0.0
+httpx>=0.27.0
+
+# ── HuggingFace Hub (model card lookups, no local model downloads) ────────────
+huggingface_hub>=0.22.2
+tqdm>=4.66.2
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+pydantic>=2.6.4
+loguru>=0.7.2
+appdirs>=1.4.4
+sentry-sdk>=2.3.1

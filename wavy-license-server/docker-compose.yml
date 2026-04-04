@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       wavy_license
+      POSTGRES_USER:     wavy
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wavy"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  license-server:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://wavy:secret@db:5432/wavy_license
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

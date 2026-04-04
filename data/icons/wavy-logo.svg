@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e85c4a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#d43f3f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a82d2d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- White background so taskbar icon shows red-on-white -->
+  <circle cx="50" cy="50" r="48" fill="#ffffff"/>
+  <!-- Outer circle -->
+  <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGradient)" stroke-width="4"/>
+  <!-- Sun: solid circle upper-left -->
+  <circle cx="32" cy="32" r="8" fill="url(#logoGradient)" stroke="none"/>
+  <!-- Wave lines -->
+  <path d="M 22 68 Q 35 48 50 56 Q 65 64 78 58" fill="none" stroke="url(#logoGradient)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 28 78 Q 40 62 50 68 Q 60 74 72 68" fill="none" stroke="url(#logoGradient)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

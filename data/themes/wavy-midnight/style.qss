@@ -1,0 +1,1431 @@
+/*
+ * Wavy Labs — Midnight Theme (wavy-midnight) v1
+ * ═══════════════════════════════════════════════
+ * Deep navy/dark-purple with vivid purple accent.
+ *
+ * Palette:
+ *   bg0        #0d0d1a   deepest background
+ *   bg1        #141428   panels / dock
+ *   bg2        #1e1e3c   raised surface / inputs
+ *   bg3        #282850   hover / selected
+ *   border     #3d3d70   1px borders
+ *   text       #e0deff   primary text (soft lavender-white)
+ *   textMuted  #9090c0   muted / placeholders
+ *   accent     #7c3aed   vivid purple (Tailwind purple-600)
+ *   accentDim  #5b21b6   pressed (Tailwind purple-800)
+ *   accentHi   #a855f7   hover highlight (Tailwind purple-500)
+ *   success    #27ae60   warning #e67e22   danger #ff5252
+ */
+
+/* ── Global ───────────────────────────────────────────────────────────────── */
+
+QWidget {
+    background-color: #0d0d1a;
+    color: #e0deff;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    font-size: 12px;
+}
+
+QMainWindow, QDialog {
+    background-color: #0d0d1a;
+}
+
+/* ── Menu bar ─────────────────────────────────────────────────────────────── */
+
+QMenuBar {
+    background-color: #141428;
+    border-bottom: 1px solid #3d3d70;
+    padding: 2px 4px;
+}
+
+QMenuBar::item {
+    padding: 4px 12px;
+    border-radius: 4px;
+    color: #e0deff;
+}
+
+QMenuBar::item:selected,
+QMenuBar::item:pressed {
+    background-color: rgba(124, 58, 237, 0.15);
+    color: #a855f7;
+}
+
+QMenu {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 5px 22px 5px 12px;
+    border-radius: 3px;
+    color: #e0deff;
+}
+
+QMenu::item:selected {
+    background-color: #282850;
+    color: #a855f7;
+}
+
+QMenu::item:disabled {
+    color: #9090c0;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: #3d3d70;
+    margin: 4px 8px;
+}
+
+QMenu::indicator {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── MDI / workspace ──────────────────────────────────────────────────────── */
+
+QMdiArea {
+    background-color: #3d3d70;
+}
+
+QMdiSubWindow {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-radius: 0px;
+}
+
+QMdiSubWindow::title {
+    background-color: #141428;
+    border-bottom: 1px solid #3d3d70;
+    padding: 4px 8px;
+    font-weight: 500;
+    color: #e0deff;
+}
+
+/* ── Plugin / instrument windows ──────────────────────────────────────────── */
+
+SubWindow {
+    qproperty-activeColor: #141428;
+    qproperty-textShadowColor: #000000;
+    qproperty-borderColor: #3d3d70;
+}
+
+InstrumentTrackWindow {
+    background-color: #141428;
+}
+
+InstrumentTrackWindow > TabWidget,
+InstrumentTrackWindow > TabWidget::pane {
+    background-color: #141428;
+    border: none;
+}
+
+InstrumentTrackWindow > TabWidget > QTabBar::tab {
+    background-color: #1e1e3c;
+    color: #9090c0;
+    border: 1px solid #3d3d70;
+    border-bottom: none;
+    padding: 4px 10px;
+}
+
+InstrumentTrackWindow > TabWidget > QTabBar::tab:selected {
+    background-color: #141428;
+    color: #7c3aed;
+}
+
+/* ── Dock widgets ─────────────────────────────────────────────────────────── */
+
+QDockWidget {
+    background-color: #141428;
+    color: #e0deff;
+    border: 1px solid #3d3d70;
+}
+
+QDockWidget::title {
+    background-color: #141428;
+    border-bottom: 1px solid #3d3d70;
+    padding: 4px 8px;
+    font-weight: 500;
+}
+
+QDockWidget::close-button,
+QDockWidget::float-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 3px;
+    padding: 2px;
+}
+
+QDockWidget::close-button:hover,
+QDockWidget::float-button:hover {
+    background-color: #282850;
+}
+
+/* ── Wavy AI Panel header ──────────────────────────────────────────────────── */
+
+#aiPanelHeader {
+    background-color: #0d0d1a;
+    border-bottom: 1px solid #3d3d70;
+    min-height: 32px;
+    max-height: 32px;
+}
+
+#aiPanelTitle {
+    color: #e0deff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+#aiTierLabel {
+    font-size: 11px;
+    font-weight: 600;
+    color: #7c3aed;
+}
+
+#aiStatusOk      { color: #27ae60; font-size: 11px; }
+#aiStatusOffline { color: #ff5252; font-size: 11px; }
+
+QToolButton#aiCheckStatusBtn {
+    background: transparent;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    color: #9090c0;
+    font-size: 11px;
+    padding: 2px 8px;
+}
+QToolButton#aiCheckStatusBtn:hover {
+    background-color: #282850;
+    color: #e0deff;
+}
+
+QPushButton#aiAdvancedToggleBtn {
+    background: transparent;
+    border: none;
+    color: #9090c0;
+    font-size: 12px;
+    text-align: left;
+}
+QPushButton#aiAdvancedToggleBtn:hover {
+    color: #e0deff;
+}
+
+/* ── Generate tab: top bar ─────────────────────────────────────────────────── */
+
+#aiGenerateTopBar {
+    background-color: transparent;
+}
+
+QPushButton#aiGenerateTabBtn {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #9090c0;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+QPushButton#aiGenerateTabBtn:hover {
+    color: #e0deff;
+}
+QPushButton#aiGenerateTabBtn:checked {
+    color: #7c3aed;
+    border-bottom-color: #7c3aed;
+}
+
+#aiGenerateModelLabel {
+    color: #9090c0;
+    font-size: 12px;
+}
+#aiGenerateModelCombo {
+    min-width: 180px;
+}
+
+QPushButton#aiInspoChip {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 16px;
+    color: #9090c0;
+    font-size: 11px;
+    padding: 4px 12px;
+}
+QPushButton#aiInspoChip:hover {
+    background-color: #282850;
+    border-color: #7c3aed;
+    color: #e0deff;
+}
+
+#aiDailyCounter {
+    color: #9090c0;
+    font-size: 11px;
+}
+
+/* ── AI dock wrapper ─────────────────────────────────────────────────────── */
+
+QDockWidget#aiDock {
+    border: none;
+}
+
+QDockWidget#aiDock > QWidget {
+    border: none;
+    padding: 0px;
+}
+
+/* ── AI NavBar ────────────────────────────────────────────────────────────── */
+
+#aiNavBar {
+    background-color: #141428;
+    border-right: 1px solid #3d3d70;
+    min-width: 36px;
+    max-width: 36px;
+}
+
+QToolButton#aiNavBtn {
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    icon-size: 18px 18px;
+    color: #9090c0;
+}
+
+QToolButton#aiNavBtn:checked {
+    background-color: #1e1e3c;
+    border-left: 2px solid #7c3aed;
+    color: #e0deff;
+}
+
+QToolButton#aiNavBtn:hover {
+    background-color: #282850;
+    color: #e0deff;
+}
+
+QFrame#aiNavSep {
+    color: #3d3d70;
+    max-height: 1px;
+    margin: 4px 6px;
+}
+
+/* ── Generate button ──────────────────────────────────────────────────────── */
+
+QPushButton#aiGenerateBtn {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    min-height: 36px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 0 12px;
+}
+
+QPushButton#aiGenerateBtn:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #7c3aed, stop:1 #a855f7);
+}
+QPushButton#aiGenerateBtn:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #4c1d95, stop:1 #5b21b6);
+}
+
+QPushButton#aiGenerateBtn:disabled {
+    background: #1e1e3c;
+    color: #9090c0;
+}
+
+/* ── Create button (purple gradient) ──────────────────────────────────────── */
+
+QPushButton#aiCreateBtn {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0    #4c1d95,
+        stop:0.33 #5b21b6,
+        stop:0.67 #7c3aed,
+        stop:1    #a855f7);
+    color: #ffffff;
+    border: none;
+    border-radius: 22px;
+    min-height: 44px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 20px;
+}
+
+QPushButton#aiCreateBtn:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0    #5b21b6,
+        stop:0.33 #7c3aed,
+        stop:0.67 #a855f7,
+        stop:1    #c084fc);
+}
+
+QPushButton#aiCreateBtn:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0    #3b0f92,
+        stop:0.33 #4c1d95,
+        stop:0.67 #5b21b6,
+        stop:1    #7c3aed);
+}
+
+QPushButton#aiCreateBtn:disabled {
+    background: #1e1e3c;
+    color: #9090c0;
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────────── */
+
+#aiProgressBar {
+    background-color: #141428;
+    border: none;
+    max-height: 3px;
+}
+
+#aiProgressBar::chunk {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    border-radius: 0px;
+}
+
+/* ── Prompt bar ─────────────────────────────────────────────────────────────── */
+
+#promptBarWidget {
+    background-color: #141428;
+    border-top: 1px solid #3d3d70;
+}
+
+#promptBarIcon {
+    color: #7c3aed;
+}
+
+#promptBarInput {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 5px 8px;
+    color: #e0deff;
+    font-size: 12px;
+}
+
+#promptBarInput:focus {
+    border-color: #7c3aed;
+}
+
+#promptBarSend {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 600;
+    padding: 0 8px;
+}
+
+#promptBarSend:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #7c3aed, stop:1 #a855f7);
+}
+#promptBarSend:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #4c1d95, stop:1 #5b21b6);
+}
+
+#promptBarStatus {
+    color: #9090c0;
+    font-size: 11px;
+}
+
+/* ── Section headers ────────────────────────────────────────────────────────── */
+
+#sectionHeader {
+    color: #9090c0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #3d3d70;
+}
+
+/* ── History list (generation cards) ─────────────────────────────────────── */
+
+#historyList {
+    background-color: #0d0d1a;
+    border: 1px solid #3d3d70;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+#generationEntryWrapper {
+    padding: 0;
+}
+
+#generationCardLabel {
+    color: #9090c0;
+    font-size: 11px;
+    padding-left: 2px;
+}
+
+#generationCard {
+    background-color: #1a1a30;
+    border: 1px solid #2d2d5a;
+    border-radius: 8px;
+}
+
+#generationCardTitle {
+    color: #e0deff;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+#generationPlayBtn {
+    background-color: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px;
+    color: #e0deff;
+    font-size: 11px;
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    padding: 0;
+}
+
+#generationPlayBtn:hover {
+    background-color: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.3);
+}
+
+#generationStarBtn,
+#generationDownloadBtn {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: #9090c0;
+    font-size: 13px;
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    padding: 0;
+}
+
+#generationStarBtn:hover {
+    color: #e67e22;
+    background-color: rgba(230,126,34,0.1);
+}
+
+#generationDownloadBtn:hover {
+    color: #e0deff;
+    background-color: rgba(255,255,255,0.06);
+}
+
+#generationInsertBtn {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    min-height: 28px;
+    min-width: 28px;
+    padding: 0;
+}
+
+#generationInsertBtn:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #7c3aed, stop:1 #a855f7);
+}
+
+/* ── Chat UI ──────────────────────────────────────────────────────────────── */
+
+#aiChatInput {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: #e0deff;
+    font-size: 12px;
+}
+
+#aiChatInput:focus { border-color: #7c3aed; }
+
+#aiChatSend {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 600;
+}
+
+#aiChatSend:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #7c3aed, stop:1 #a855f7);
+}
+#aiChatSend:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #4c1d95, stop:1 #5b21b6);
+}
+
+#aiChatClear {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    color: #9090c0;
+}
+
+#aiChatClear:hover { background-color: #282850; color: #e0deff; }
+
+/* ── Code editor toolbar ─────────────────────────────────────────────────── */
+
+#codeEditorToolbar {
+    background-color: #141428;
+    border-bottom: 1px solid #3d3d70;
+}
+
+#codeRunBtn {
+    background-color: #27ae60;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 600;
+    padding: 4px 10px;
+}
+
+#codeRunBtn:hover   { background-color: #2ecc71; }
+#codeRunBtn:pressed { background-color: #1e8449; }
+#codeRunBtn:disabled{ background-color: #1e1e3c; color: #9090c0; }
+
+#codeStatusLabel { color: #27ae60; font-weight: 600; }
+
+/* ── Mix result ──────────────────────────────────────────────────────────── */
+
+#mixResultLabel {
+    color: #27ae60;
+    font-size: 12px;
+    padding: 4px 0;
+}
+
+/* ── Pro gate notice ──────────────────────────────────────────────────────── */
+
+#proGate {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-left: 3px solid #e67e22;
+    border-radius: 3px;
+    padding: 6px 10px;
+    color: #e67e22;
+}
+
+/* ── Tier badges ──────────────────────────────────────────────────────────── */
+
+#tierBadgeStudio {
+    background-color: #7c3aed;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+#tierBadgePro {
+    background-color: #5b21b6;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* ── Inputs & controls ────────────────────────────────────────────────────── */
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 4px 8px;
+    color: #e0deff;
+    selection-background-color: #5b21b6;
+    selection-color: #ffffff;
+}
+
+QLineEdit:focus, QTextEdit:focus {
+    border-color: #7c3aed;
+}
+
+QComboBox {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 4px 8px;
+    color: #e0deff;
+    min-height: 22px;
+}
+
+QComboBox:hover { border-color: #7c3aed; }
+
+QComboBox::drop-down {
+    border: none;
+    width: 18px;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    width: 10px;
+    height: 10px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    selection-background-color: #282850;
+    selection-color: #7c3aed;
+    color: #e0deff;
+}
+
+QSpinBox, QDoubleSpinBox {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 4px 6px;
+    color: #e0deff;
+}
+
+QSpinBox:focus, QDoubleSpinBox:focus { border-color: #7c3aed; }
+
+QSlider::groove:horizontal {
+    height: 3px;
+    background-color: #3d3d70;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background-color: #7c3aed;
+    width: 12px;
+    height: 12px;
+    margin: -5px 0;
+    border-radius: 6px;
+}
+
+QSlider::handle:horizontal:hover {
+    background-color: #a855f7;
+}
+
+QSlider::sub-page:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #5b21b6, stop:1 #7c3aed);
+    border-radius: 2px;
+}
+
+/* ── Buttons (general) ────────────────────────────────────────────────────── */
+
+QPushButton {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #1e1e3c, stop:1 #141428);
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    padding: 4px 10px;
+    color: #e0deff;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 #282850, stop:1 #1e1e3c);
+    border-color: #7c3aed;
+}
+QPushButton:pressed { background-color: #0d0d1a; }
+QPushButton:disabled{ background-color: #0d0d1a; color: #9090c0; border-color: #3d3d70; }
+
+QPushButton:checked {
+    background-color: #1e1e3c;
+    border-color: #7c3aed;
+    color: #7c3aed;
+}
+
+/* ── Group boxes ─────────────────────────────────────────────────────────── */
+
+QGroupBox {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    margin-top: 6px;
+    padding-top: 8px;
+    font-weight: 500;
+    color: #9090c0;
+    font-size: 11px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 8px;
+    top: -1px;
+    padding: 0 4px;
+    background-color: #0d0d1a;
+    color: #9090c0;
+}
+
+/* ── Scroll areas ──────────────────────────────────────────────────────────── */
+
+QScrollArea {
+    background-color: #0d0d1a;
+    border: none;
+}
+
+QScrollArea > QWidget,
+QScrollArea > QWidget > QWidget {
+    background-color: #0d0d1a;
+}
+
+QAbstractScrollArea::viewport {
+    background-color: #0d0d1a;
+}
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────── */
+
+QScrollBar:vertical {
+    background-color: #0d0d1a;
+    width: 5px;
+    border-radius: 3px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #3d3d70;
+    border-radius: 3px;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover  { background-color: #7c3aed; }
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical      { height: 0; }
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical      { background: none; }
+
+QScrollBar:horizontal {
+    background-color: #0d0d1a;
+    height: 5px;
+    border-radius: 3px;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #3d3d70;
+    border-radius: 3px;
+    min-width: 20px;
+}
+
+QScrollBar::handle:horizontal:hover { background-color: #7c3aed; }
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal     { width: 0; }
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal     { background: none; }
+
+/* ── Status bar ──────────────────────────────────────────────────────────── */
+
+QStatusBar {
+    background-color: #141428;
+    border-top: 1px solid #3d3d70;
+    color: #9090c0;
+    font-size: 11px;
+}
+
+/* ── Splitter ─────────────────────────────────────────────────────────────── */
+
+QSplitter::handle {
+    background-color: #3d3d70;
+}
+
+QSplitter::handle:horizontal { width: 1px; }
+QSplitter::handle:vertical   { height: 1px; }
+
+QSplitter::handle:hover {
+    background-color: #7c3aed;
+}
+
+/* ── Tab bars ─────────────────────────────────────────────────────────────── */
+
+QTabBar::tab {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    padding: 5px 14px;
+    color: #9090c0;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #1e1e3c;
+    color: #7c3aed;
+    border-color: #3d3d70;
+}
+
+QTabBar::tab:hover {
+    color: #e0deff;
+    background-color: #282850;
+}
+
+QTabWidget::pane {
+    border-top: 1px solid #3d3d70;
+    background-color: #0d0d1a;
+}
+
+/* ── Tooltips ─────────────────────────────────────────────────────────────── */
+
+QToolTip {
+    background-color: #141428;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    color: #e0deff;
+    padding: 3px 8px;
+    font-size: 11px;
+}
+
+/* ── List / tree views ────────────────────────────────────────────────────── */
+
+QListWidget, QTreeWidget, QListView, QTreeView {
+    background-color: #0d0d1a;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+    color: #e0deff;
+    alternate-background-color: #141428;
+    outline: none;
+}
+
+QListWidget::item, QListView::item,
+QTreeWidget::item, QTreeView::item {
+    padding: 3px 6px;
+    border-radius: 2px;
+}
+
+QListWidget::item:selected, QListView::item:selected,
+QTreeWidget::item:selected, QTreeView::item:selected {
+    background-color: #282850;
+    color: #7c3aed;
+}
+
+QListWidget::item:hover, QListView::item:hover,
+QTreeWidget::item:hover, QTreeView::item:hover {
+    background-color: #1e1e3c;
+}
+
+QHeaderView {
+    background-color: #141428;
+    border: none;
+}
+
+QHeaderView::section {
+    background-color: #141428;
+    border: none;
+    border-right: 1px solid #3d3d70;
+    border-bottom: 1px solid #3d3d70;
+    padding: 4px 8px;
+    color: #9090c0;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ── Check boxes / radio buttons ──────────────────────────────────────────── */
+
+QCheckBox, QRadioButton {
+    color: #e0deff;
+    spacing: 6px;
+}
+
+QCheckBox:disabled, QRadioButton:disabled { color: #9090c0; }
+
+/* ── Labels ───────────────────────────────────────────────────────────────── */
+
+QLabel {
+    color: #e0deff;
+    background-color: transparent;
+}
+
+QLabel:disabled { color: #9090c0; }
+
+/* ── Console ──────────────────────────────────────────────────────────────── */
+
+#aiConsole {
+    background-color: #07070f;
+    border: 1px solid #3d3d70;
+    color: #9090c0;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 11px;
+    border-radius: 0;
+}
+
+/* ── Piano Roll ────────────────────────────────────────────────────────────── */
+
+lmms--gui--PianoRoll {
+    /* Note colors */
+    qproperty-noteColor:            #7c3aed;
+    qproperty-selectedNoteColor:    #a855f7;
+    qproperty-noteModeColor:        #27ae60;
+    qproperty-ghostNoteColor:       #282850;
+    qproperty-noteTextColor:        #ffffff;
+    qproperty-ghostNoteTextColor:   #9090c0;
+    qproperty-stepNoteColor:        #e67e22;
+    qproperty-currentStepNoteColor: #ff5252;
+    qproperty-noteOpacity:          210;
+    qproperty-noteBorders:          false;
+    qproperty-ghostNoteOpacity:     80;
+    qproperty-ghostNoteBorders:     false;
+
+    /* Grid lines */
+    qproperty-barColor:             #0d0d1a;
+    qproperty-barLineColor:         #7c3aed;
+    qproperty-beatLineColor:        #282850;
+    qproperty-lineColor:            #141428;
+    qproperty-markedSemitoneColor:  #1a1a30;
+
+    /* Text */
+    qproperty-textColor:            #e0deff;
+    qproperty-textColorLight:       #9090c0;
+    qproperty-textShadow:           #000000;
+
+    /* Background shading */
+    qproperty-backgroundShade:      rgba(255,255,255,4);
+    qproperty-outOfBoundsShade:     rgba(0,0,0,120);
+
+    /* Piano keys */
+    qproperty-whiteKeyWidth:        64;
+    qproperty-whiteKeyInactiveBackground: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #1e1e3c, stop:1 #282850);
+    qproperty-whiteKeyActiveBackground:   qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #5b21b6, stop:1 #7c3aed);
+    qproperty-whiteKeyDisabledBackground: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141428, stop:1 #1e1e3c);
+    qproperty-whiteKeyInactiveTextColor:  #9090c0;
+    qproperty-whiteKeyInactiveTextShadow: #000000;
+    qproperty-whiteKeyActiveTextColor:    #ffffff;
+    qproperty-whiteKeyActiveTextShadow:   #000000;
+    qproperty-blackKeyWidth:        48;
+    qproperty-blackKeyInactiveBackground: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #07070f, stop:1 #0d0d1a);
+    qproperty-blackKeyActiveBackground:   qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #3b0f92, stop:1 #5b21b6);
+    qproperty-blackKeyDisabledBackground: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #050508, stop:1 #0a0a12);
+
+    /* Knife tool */
+    qproperty-knifeCutLine:         #7c3aed;
+}
+
+/* ── LMMS Song Editor — Track content grid ────────────────────────────────── */
+
+lmms--gui--TrackContentWidget {
+    qproperty-darkerColor:     #090912;
+    qproperty-lighterColor:    #0f0f1e;
+    qproperty-coarseGridColor: #2d2d5a;
+    qproperty-fineGridColor:   #1a1a35;
+    qproperty-horizontalColor: #252545;
+    qproperty-embossColor:     rgba(0,0,0,0);
+    qproperty-coarseGridWidth: 2;
+    qproperty-fineGridWidth:   1;
+    qproperty-horizontalWidth: 1;
+    qproperty-embossWidth:     0;
+}
+
+/* TrackContainerView background */
+lmms--gui--TrackContainerView {
+    background-color: #0d0d1a;
+}
+
+lmms--gui--TrackContainerView QFrame {
+    background-color: #0a0a14;
+}
+
+/* ── WavyShell — Unified header row (menu bar + transport) ────────── */
+#WavyHeader {
+    background-color: #141428;
+    border-bottom: 1px solid #3d3d70;
+}
+#WavyHeader QMenuBar {
+    background-color: transparent;
+    border-bottom: none;
+    border: none;
+}
+/* Neumorphic pill buttons — surface = #141428 */
+#WavyHeader QMenuBar::item,
+#WavyHeader QToolButton {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #1c1c3e, stop:1 #0d0d1e);
+    color: #a090cc;
+    border-top:    1px solid #222242;
+    border-left:   1px solid #222242;
+    border-bottom: 1px solid #09091a;
+    border-right:  1px solid #09091a;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 4px 14px;
+    min-height: 0px;
+    max-height: 16px;
+}
+#WavyHeader QMenuBar::item:selected,
+#WavyHeader QMenuBar::item:pressed,
+#WavyHeader QToolButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #222248, stop:1 #111128);
+    color: #c084fc;
+    border-top:    1px solid #2a2a52;
+    border-left:   1px solid #2a2a52;
+    border-bottom: 1px solid #08081a;
+    border-right:  1px solid #08081a;
+}
+#WavyHeader QToolButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #0d0d1e, stop:1 #1c1c3e);
+    color: #e9d5ff;
+    border-top:    1px solid #09091a;
+    border-left:   1px solid #09091a;
+    border-bottom: 1px solid #222242;
+    border-right:  1px solid #222242;
+}
+#WavyTransportBar {
+    background: transparent;
+}
+
+#WavyTransportBar QWidget {
+    background-color: transparent;
+}
+
+/* ── WavyShell — Editor tabs bar ─────────────────────────────────────────── */
+
+#WavyEditorBar {
+    background: #0a0a14;
+    border-bottom: 1px solid #2d2d5a;
+}
+
+QPushButton#WavyEditorTab {
+    background: #141428;
+    color: #9090c0;
+    border: 1px solid #2d2d5a;
+    border-bottom: 2px solid transparent;
+    border-radius: 0px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    min-width: 0px;
+}
+
+QPushButton#WavyEditorTab:checked {
+    background: #1e1e3c;
+    color: #a855f7;
+    border-bottom: 2px solid #7c3aed;
+}
+
+QPushButton#WavyEditorTab:hover:!checked {
+    background: #1a1a30;
+    color: #e0deff;
+}
+
+/* ── WavyShell — LMMS instrument sidebar ─────────────────────────────────── */
+
+#WavySideBar {
+    background-color: #201840;
+    border: none;
+    spacing: 2px;
+}
+
+#WavySideBar QToolButton {
+    background-color: #2a2250;
+    color: #c8b8f0;
+    border: 1px solid #3a3060;
+    border-radius: 4px;
+    padding: 6px 2px;
+    margin: 1px 2px;
+    font-size: 10px;
+    min-width: 48px;
+    max-width: 48px;
+}
+
+#WavySideBar QToolButton:checked {
+    background-color: #7c3aed;
+    color: white;
+    border-color: #7c3aed;
+}
+
+#WavySideBar QToolButton:hover {
+    background-color: #342c5c;
+}
+
+/* AI nav buttons — VS Code accent-bar style */
+#WavySideBar QToolButton#WavyAINavBtn {
+    background-color: transparent;
+    color: #c8b8f0;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: 2px solid transparent;
+    border-radius: 0;
+    padding: 3px 4px;
+    margin: 0px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#WavySideBar QToolButton#WavyAINavBtn:checked {
+    background-color: rgba(124,58,237,0.30);
+    color: #b898f8;
+    border-left: 2px solid #7c3aed;
+}
+
+#WavySideBar QToolButton#WavyAINavBtn:hover:!checked {
+    background-color: rgba(180,160,255,0.12);
+    color: #d0c0f0;
+}
+
+/* ── WavyMixerView ─────────────────────────────────────────────────────────── */
+
+#WavyMixerView {
+    background: #0d0d1a;
+}
+
+#WavyMixerHeader {
+    background: #141428;
+    border-bottom: 1px solid #2d2d5a;
+}
+
+#WavyMixerStripContainer,
+#WavyMixerScrollArea {
+    background: #0d0d1a;
+}
+
+#WavyChannelStrip {
+    background: #141428;
+    border: 1px solid #2d2d5a;
+    border-radius: 4px;
+}
+
+#WavyMixerChName { color: #e0deff; }
+#WavyMixerDbLabel { color: #9090c0; }
+
+#WavyMixerFader::groove:vertical {
+    background: #282850;
+    width: 4px;
+    border-radius: 2px;
+}
+
+#WavyMixerFader::handle:vertical {
+    background: #7c3aed;
+    height: 12px;
+    margin: 0 -6px;
+    border-radius: 3px;
+}
+
+/* ── Toolbars — dark enough for white SVG icons ───────────────────────────── */
+QToolBar {
+    background-color: #0d0d1a;
+    border: none;
+    spacing: 2px;
+    padding: 2px;
+}
+
+QToolBar#WavyControlBar {
+    background-color: #0d0d1a;
+    border: none;
+}
+
+/* Child widgets inside dark toolbar — transparent so toolbar bg shows through */
+QToolBar#WavyControlBar QSlider,
+QToolBar#WavyControlBar QAbstractSlider {
+    background-color: transparent;
+}
+
+QToolBar#WavyControlBar lmms--gui--ComboBox {
+    background-color: transparent;
+}
+
+QToolBar#WavyControlBar QLabel {
+    background-color: transparent;
+}
+
+QToolBar#WavyControlBar QWidget {
+    background-color: transparent;
+}
+
+QToolBar::separator {
+    background-color: #1e1e3c;
+    width: 1px; height: 1px;
+    margin: 3px 2px;
+}
+
+/* ── Track header sidebar ──────────────────────────────────────────────────── */
+lmms--gui--TrackOperationsWidget {
+    background-color: #0d0d1a;
+    color: #e0deff;
+}
+
+/* Track sidebar buttons — visible on dark bg */
+lmms--gui--TrackOperationsWidget lmms--gui--AutomatableButton {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 2px;
+    padding: 1px;
+}
+lmms--gui--TrackOperationsWidget lmms--gui--AutomatableButton:checked {
+    background-color: #7c6ccc;
+    border-color: #6050a0;
+}
+lmms--gui--TrackOperationsWidget lmms--gui--PixmapButton {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 2px;
+}
+lmms--gui--TrackOperationsWidget lmms--gui--PixmapButton:checked {
+    background-color: #7c6ccc;
+    border-color: #6050a0;
+}
+
+/* Gear/menu button */
+lmms--gui--TrackOperationsWidget QPushButton {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 2px;
+    padding: 1px;
+    color: #e0deff;
+}
+lmms--gui--TrackOperationsWidget QPushButton:hover {
+    background-color: #2a2a50;
+}
+lmms--gui--TrackOperationsWidget QPushButton::menu-indicator {
+    width: 0; height: 0;
+}
+
+/* ── Track rows ─────────────────────────────────────────────────────────────── */
+lmms--gui--TrackView,
+lmms--gui--InstrumentTrackView,
+lmms--gui--SampleTrackView,
+lmms--gui--PatternTrackView,
+lmms--gui--AutomationTrackView,
+lmms--gui--BBTrackView {
+    background-color: #0d0d1a;
+    border-bottom: 1px solid #1e1e3c;
+}
+
+/* ── Track settings panel (instrument name + knobs area) ─────────────────── */
+QWidget#TrackSettings {
+    background-color: #0d0d1a;
+}
+lmms--gui--TrackLabelButton {
+    background-color: #0d0d1a;
+    color: #e0deff;
+    border: none;
+    border-left: 2px solid transparent;
+    border-radius: 3px;
+    text-align: left;
+    padding-left: 4px;
+}
+lmms--gui--TrackLabelButton:hover {
+    background-color: #141428;
+}
+lmms--gui--TrackLabelButton:checked,
+lmms--gui--TrackLabelButton:pressed {
+    background-color: #1e1e3c;
+    border-left: 2px solid #7c6ccc;
+}
+
+/* ── Editor outer windows ───────────────────────────────────────────────────── */
+lmms--gui--SongEditorWindow,
+lmms--gui--PatternEditorWindow,
+lmms--gui--AutomationEditorWindow {
+    background-color: #0d0d1a;
+    color: #e0deff;
+}
+
+/* ── Beat/Bassline editor ────────────────────────────────────────────────────── */
+lmms--gui--BeatEditorView { background-color: #0d0d1a; }
+lmms--gui--BeatView {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 3px;
+}
+
+/* ── Timeline ruler ─────────────────────────────────────────────────────────── */
+lmms--gui--TimeLineWidget {
+    background-color: #141428;
+    color: #e0deff;
+    qproperty-barLineColor:            #7c3aed;
+    qproperty-bgColor:                 #141428;
+    qproperty-inactiveLoopBrush:       rgba(100,80,200,20);
+    qproperty-inactiveLoopColor:       rgba(124,58,237,70);
+    qproperty-inactiveLoopInnerColor:  rgba(124,58,237,35);
+    qproperty-activeLoopBrush:         rgba(124,58,237,80);
+    qproperty-activeLoopColor:         #7c3aed;
+    qproperty-activeLoopInnerColor:    rgba(124,58,237,120);
+}
+
+/* ── Automatable / Pixmap buttons (track mute, solo, etc.) ──────────────────── */
+lmms--gui--AutomatableButton {
+    background-color: #1e1e3c;
+    border: 1px solid #3d3d70;
+    border-radius: 2px;
+    padding: 1px;
+}
+lmms--gui--AutomatableButton:checked {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+}
+
+/* ── LCD Number displays (BPM, Position in transport) ───────────────────────── */
+QLCDNumber {
+    color: #00cc44;
+    background-color: #07070f;
+    border: 1px solid #1e1e3c;
+    border-radius: 3px;
+}
+
+/* ── Toolbar QToolButtons — transparent so toolbar bg shows through ────────── */
+QToolBar QToolButton {
+    background: transparent;
+    border: none;
+    padding: 2px;
+    border-radius: 2px;
+}
+QToolBar QToolButton:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+QToolBar QToolButton:checked,
+QToolBar QToolButton:pressed {
+    background-color: rgba(124,58,237,0.28);
+    border: 1px solid rgba(124,58,237,0.45);
+}
+
+/* ── Clip block theming ───────────────────────────────────────────────────── */
+lmms--gui--ClipView {
+    qproperty-clipBgColor: #32266c;
+    qproperty-textColor: #e0deff;
+    qproperty-textShadowColor: #000000;
+    qproperty-selectedColor: #7c6ccc;
+    qproperty-mutedColor: #4a3a8a;
+    qproperty-mutedBackgroundColor: #1a1530;
+    qproperty-markerColor: #a090ff;
+    qproperty-gradient: true;
+    qproperty-borderRadius: 5;
+}
+lmms--gui--MidiClipView {
+    qproperty-patternClipBackground: #1e1e3c;
+}
+
+/* ── Knob widget colors ────────────────────────────────────────────────────── */
+lmms--gui--Knob {
+    qproperty-outerColor:        #3d3d70;
+    qproperty-lineActiveColor:   #7c3aed;
+    qproperty-lineInactiveColor: #282850;
+    qproperty-arcActiveColor:    #7c3aed;
+    qproperty-arcInactiveColor:  #1e1e3c;
+    qproperty-textColor:         #9090c0;
+}
+
+/* ── Playhead line ─────────────────────────────────────────────────────────── */
+lmms--gui--PositionLine {
+    qproperty-lineColor: #7c3aed;
+}
+
+/* ── Track ops VLine separator ─────────────────────────────────────────────── */
+lmms--gui--TrackOperationsWidget QFrame {
+    color: #3d3d70;
+    background-color: #3d3d70;
+    max-width: 1px;
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+     stroke-linecap="round" stroke-linejoin="round">
+  <!-- Stem splitting: one signal forking into multiple -->
+  <!-- Source waveform -->
+  <polyline points="1,12 3,9 5,15 7,7 9,17 11,12"
+            stroke="#4fc3f7" stroke-width="1.8" fill="none"/>
+  <!-- Fork arrow -->
+  <line x1="12" y1="12" x2="15" y2="12" stroke="#8888a8" stroke-width="1.5"/>
+  <polyline points="14,10 16,12 14,14" stroke="#8888a8" stroke-width="1.5" fill="none"/>
+  <!-- Stem 1: vocals (top) -->
+  <polyline points="16,7 17.5,5 19,9 20.5,6 22,7"
+            stroke="#7c5cbf" stroke-width="1.5" fill="none"/>
+  <!-- Stem 2: drums (middle) -->
+  <polyline points="16,12 17,11 18,13 19,11 20,13 21,12 22,12"
+            stroke="#4fc3f7" stroke-width="1.5" fill="none"/>
+  <!-- Stem 3: bass (bottom) -->
+  <polyline points="16,17 17.5,15 19,19 20.5,16 22,17"
+            stroke="#4caf7d" stroke-width="1.5" fill="none"/>
+</svg>

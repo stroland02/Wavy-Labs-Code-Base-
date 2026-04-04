@@ -1,0 +1,14 @@
+[submodule "lmms-core"]
+	path = lmms-core
+	url = https://github.com/stroland02/lmms.git
+	branch = wavy-patches
+
+[submodule "vendor/cppzmq"]
+	path = vendor/cppzmq
+	url = https://github.com/zeromq/cppzmq.git
+	branch = master
+
+[submodule "vendor/json"]
+	path = vendor/json
+	url = https://github.com/nlohmann/json.git
+	branch = develop

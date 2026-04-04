@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build-all:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  create-release:
+    needs: build-all
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Package artifacts
+        run: |
+          cd dist
+          # Prefer installer artifacts if present, otherwise package raw binary
+          if ls wavy-labs-windows/WavyLabs-*-Setup.exe 2>/dev/null; then
+            cp wavy-labs-windows/WavyLabs-*-Setup.exe .
+          else
+            zip -r wavy-labs-windows-${{ github.ref_name }}.zip wavy-labs-windows/
+          fi
+          if ls wavy-labs-macos/WavyLabs-*-macOS.dmg 2>/dev/null; then
+            cp wavy-labs-macos/WavyLabs-*-macOS.dmg .
+          else
+            tar czf wavy-labs-macos-${{ github.ref_name }}.tar.gz wavy-labs-macos/
+          fi
+          if ls wavy-labs-linux/WavyLabs-*-x86_64.AppImage 2>/dev/null; then
+            cp wavy-labs-linux/WavyLabs-*-x86_64.AppImage .
+          else
+            tar czf wavy-labs-linux-${{ github.ref_name }}.tar.gz wavy-labs-linux/
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Wavy Labs ${{ github.ref_name }}"
+          draft: true
+          prerelease: ${{ contains(github.ref_name, '-beta') || contains(github.ref_name, '-rc') }}
+          generate_release_notes: true
+          files: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.zip
+            dist/*.tar.gz

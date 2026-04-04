@@ -1,0 +1,66 @@
+# Wavy Labs AI Backend — Python dependencies
+# Install with: pip install -r requirements.txt
+# GPU (CUDA 12.x): also run: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# ── Serving ───────────────────────────────────────────────────────────────────
+pyzmq>=25.1.2
+python-dotenv>=1.0.0
+
+# ── Core ML stack ─────────────────────────────────────────────────────────────
+torch>=2.2.0
+torchaudio>=2.2.0
+transformers>=4.40.0
+diffusers>=0.27.0
+accelerate>=0.28.0
+soundfile>=0.12.1
+scipy>=1.12.0
+numpy>=1.26.0
+einops>=0.7.0
+
+# ── Optional: MusicGen — text-to-audio (facebook/musicgen-small, ~300 MB) ────
+# No extra packages needed — covered by torch + transformers above.
+# Model auto-downloads on first use via models/musicgen.py.
+# Known issue: transformers 5.x has a config_class bug — patched in musicgen.py.
+# Swap to a larger model by changing MODEL_ID in models/musicgen.py:
+#   facebook/musicgen-medium  ~1.5 GB, better quality
+#   facebook/musicgen-large   ~3.3 GB, best quality (needs >8 GB VRAM)
+
+# ── Optional: Text2MIDI — text-to-MIDI (amaai-lab/text2midi, ~902 MB) ────────
+# pip install miditok>=3.0.0 sentencepiece>=0.1.99 st-moe-pytorch jsonlines
+# Model + REMI vocab + architecture auto-download on first use via models/text2midi.py.
+# ACE-Step 1.5 (optional local fallback — Apache 2.0):
+#   git clone https://github.com/ace-step/ACE-Step && pip install -e ./ACE-Step
+
+# ── Stem Splitting ────────────────────────────────────────────────────────────
+demucs>=4.0.1
+
+# ── Mixing / Mastering (rule-based, no model weights required) ────────────────
+pyloudnorm>=0.1.1
+pedalboard>=0.9.0
+librosa>=0.10.1
+
+# ── Prompt Commands ───────────────────────────────────────────────────────────
+# llama-cpp-python (optional — only needed for local Mistral 7B fallback)
+# llama-cpp-python>=0.2.56
+
+# ── Code-to-Music ─────────────────────────────────────────────────────────────
+lark>=1.1.9          # DSL parser
+pandas>=2.2.0        # CSV/JSON sonification
+mido>=1.3.0          # MIDI output
+pretty_midi>=0.2.10
+
+# ── Cloud providers ───────────────────────────────────────────────────────────
+anthropic>=0.25.0    # Claude prompt commands (ANTHROPIC_API_KEY)
+groq>=0.4.0          # Groq free-tier LLM (GROQ_API_KEY) — llama-3.3-70b-versatile
+elevenlabs>=1.0.0    # ElevenLabs TTS/STS/SFX/Music/Scribe/Dubbing (ELEVENLABS_API_KEY)
+httpx>=0.27.0        # HTTP client
+
+# ── Crash reporting ───────────────────────────────────────────────────────────
+sentry-sdk>=2.3.1
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+huggingface_hub>=0.22.2
+tqdm>=4.66.2
+pydantic>=2.6.4
+loguru>=0.7.2
+appdirs>=1.4.4

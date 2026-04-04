@@ -1,0 +1,89 @@
+site_name: Wavy Labs
+site_description: The DAW that listens to you — AI-powered music production, locally.
+site_url: https://docs.wavylab.net
+repo_url: https://github.com/stroland02/WL
+repo_name: stroland02/WL
+edit_uri: edit/master/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+  logo: assets/wavy-logo.svg
+  favicon: assets/favicon.png
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - System Requirements: getting-started/requirements.md
+  - Features:
+      - AI Music Generation: features/music-generation.md
+      - Stem Splitting: features/stem-splitting.md
+      - Vocal Generation: features/vocal-generation.md
+      - AI Mix & Master: features/mix-master.md
+      - Prompt Commands: features/prompt-commands.md
+      - Code to Music: features/code-to-music.md
+  - Tiers & Pricing: tiers.md
+  - Developer Reference:
+      - IPC Protocol: dev/ipc-protocol.md
+      - RPC Methods: dev/rpc-methods.md
+      - Building from Source: dev/building.md
+      - Stripe Setup: dev/stripe-setup.md
+      - Contributing: dev/contributing.md
+  - FAQ: faq.md
+  - Changelog: changelog.md
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+# Allow --8<-- includes from the repo root (e.g. CHANGELOG.md → docs/changelog.md)
+watch:
+  - CHANGELOG.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ["."]
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/stroland02/WL
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX

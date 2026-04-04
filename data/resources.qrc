@@ -1,0 +1,76 @@
+<RCC>
+    <qresource prefix="/themes/wavy-crimson">
+        <file alias="style.qss">themes/wavy-crimson/style.qss</file>
+    </qresource>
+    <qresource prefix="/themes/wavy-silver">
+        <file alias="style.qss">themes/wavy-silver/style.qss</file>
+    </qresource>
+    <qresource prefix="/themes/wavy-ruby">
+        <file alias="style.qss">themes/wavy-ruby/style.qss</file>
+    </qresource>
+    <qresource prefix="/themes/wavy-midnight">
+        <file alias="style.qss">themes/wavy-midnight/style.qss</file>
+    </qresource>
+    <qresource prefix="/themes/wavy-orangesicle">
+        <file alias="style.qss">themes/wavy-orangesicle/style.qss</file>
+    </qresource>
+    <qresource prefix="/themes/wavy-sunset">
+        <file alias="style.qss">themes/wavy-sunset/style.qss</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="splash.png">icons/splash.png</file>
+        <file alias="wl-logo.png">icons/wl-logo.png</file>
+        <file alias="wavy-logo.svg">icons/wavy-logo.svg</file>
+        <file alias="wavy-labs.svg">icons/wavy-labs.svg</file>
+        <file alias="wavy-labs-256.png">icons/wavy-labs-256.png</file>
+        <file alias="wavy-labs.ico">icons/wavy-labs.ico</file>
+        <file alias="ai-panel.svg">icons/ai-panel.svg</file>
+        <file alias="stems.svg">icons/stems.svg</file>
+        <file alias="code.svg">icons/code.svg</file>
+    </qresource>
+    <qresource prefix="/wavy/nav">
+        <file alias="generate.svg">icons/nav/generate.svg</file>
+        <file alias="vocal.svg">icons/nav/vocal.svg</file>
+        <file alias="sfx.svg">icons/nav/sfx.svg</file>
+        <file alias="mix.svg">icons/nav/mix.svg</file>
+        <file alias="tools.svg">icons/nav/tools.svg</file>
+        <file alias="code.svg">icons/nav/code.svg</file>
+        <file alias="chat.svg">icons/nav/chat.svg</file>
+        <file alias="log.svg">icons/nav/log.svg</file>
+        <file alias="account.svg">icons/nav/account.svg</file>
+    </qresource>
+    <qresource prefix="/wavy/sidebar">
+        <file alias="gen.svg">icons/sidebar/gen.svg</file>
+        <file alias="chat.svg">icons/sidebar/chat.svg</file>
+        <file alias="library.svg">icons/sidebar/library.svg</file>
+        <file alias="vox.svg">icons/sidebar/vox.svg</file>
+        <file alias="mix.svg">icons/sidebar/mix.svg</file>
+        <file alias="tool.svg">icons/sidebar/tool.svg</file>
+        <file alias="log.svg">icons/sidebar/log.svg</file>
+    </qresource>
+    <qresource prefix="/wavy/sounds">
+        <file alias="startup.wav">sounds/startup.wav</file>
+    </qresource>
+    <qresource prefix="/wavy/qml">
+        <file alias="MainPanel.qml">qml/MainPanel.qml</file>
+        <file alias="GeneratePage.qml">qml/GeneratePage.qml</file>
+        <file alias="VocalPage.qml">qml/VocalPage.qml</file>
+        <file alias="MixPage.qml">qml/MixPage.qml</file>
+        <file alias="ToolsPage.qml">qml/ToolsPage.qml</file>
+        <file alias="CodePage.qml">qml/CodePage.qml</file>
+        <file alias="ChatPage.qml">qml/ChatPage.qml</file>
+        <file alias="ConsolePage.qml">qml/ConsolePage.qml</file>
+        <file alias="LibraryPage.qml">qml/LibraryPage.qml</file>
+        <file alias="DashboardPage.qml">qml/DashboardPage.qml</file>
+        <file alias="SectionLabel.qml">qml/SectionLabel.qml</file>
+        <file alias="GlassCard.qml">qml/GlassCard.qml</file>
+        <file alias="PillTabBar.qml">qml/PillTabBar.qml</file>
+        <file alias="GlowButton.qml">qml/GlowButton.qml</file>
+        <file alias="ProGate.qml">qml/ProGate.qml</file>
+        <file alias="NoteGridWidget.qml">qml/NoteGridWidget.qml</file>
+        <file alias="ChordWidget.qml">qml/ChordWidget.qml</file>
+        <file alias="BeatGridWidget.qml">qml/BeatGridWidget.qml</file>
+        <file alias="FixCardWidget.qml">qml/FixCardWidget.qml</file>
+        <file alias="InstrumentBrowser.qml">qml/InstrumentBrowser.qml</file>
+    </qresource>
+</RCC>

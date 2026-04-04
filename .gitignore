@@ -1,0 +1,116 @@
+# ── Build ─────────────────────────────────────────────────────────────────────
+build/
+build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.ninja
+.ninja_deps
+.ninja_log
+Makefile
+compile_commands.json
+*.a
+*.lib
+*.dll
+*.dylib
+*.so
+*.exe
+*.app/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+*.egg
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── AI models (large binary files — downloaded at runtime) ────────────────────
+wavy-ai/models/weights/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.ckpt
+*.onnx
+*.npz
+
+# ── Generated audio (runtime output) ─────────────────────────────────────────
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.aiff
+*.mid
+*.midi
+# Exceptions: keep demo/test fixtures
+!wavy-ai/tests/fixtures/*.wav
+!wavy-ai/tests/fixtures/*.mid
+
+# ── Qt ────────────────────────────────────────────────────────────────────────
+*.ui.bak
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+
+# ── Claude Code ───────────────────────────────────────────────────────────────
+.claude/
+
+# ── IDE / OS ─────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Secrets ──────────────────────────────────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+secrets.cmake
+
+# ── Installer build outputs ───────────────────────────────────────────────────
+wavy-installer/dist/
+wavy-installer/*.exe
+wavy-installer/*.dmg
+wavy-installer/*.AppImage
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── External dependencies (not committed — downloaded by setup scripts) ──────
+deps/carla/
+
+# ── Local / generated at runtime ─────────────────────────────────────────────
+# Claude Code memory files (stored in ~/.claude/projects/... — not in repo)
+memory/
+# App-local license data (QSettings output)
+WavyLabs/
+# include/ is a Windows junction → lmms-core/include (created by mklink /J)
+include/
+# Firecrawl API research cache
+.firecrawl/
+# Windows NUL device artifact
+nul
+*/nul
+# License server local dev database
+wavy-license-server/dev.db
+wavy-license-server/*.db
+# Temporary debug build scripts
+build_and_log.bat

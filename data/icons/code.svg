@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+     stroke-linecap="round" stroke-linejoin="round">
+  <!-- Code brackets -->
+  <polyline points="7,8 3,12 7,16" stroke="#4fc3f7" stroke-width="2" fill="none"/>
+  <polyline points="17,8 21,12 17,16" stroke="#4fc3f7" stroke-width="2" fill="none"/>
+  <line x1="14" y1="4" x2="10" y2="20" stroke="#7c5cbf" stroke-width="1.8"/>
+  <!-- Music note hint (quarter note) -->
+  <circle cx="19.5" cy="5.5" r="1.2" fill="#4caf7d"/>
+  <line x1="20.7" y1="5.5" x2="20.7" y2="2" stroke="#4caf7d" stroke-width="1.2"/>
+</svg>

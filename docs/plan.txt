@@ -1,0 +1,348 @@
+│ Wavy Labs — AI DAW Product Plan                                                                                                                                                       │
+│                                                                                                                                                                                       │
+│ Context                                                                                                                                                                               │
+│                                                                                                                                                                                       │
+│ Wavy Labs is a new AI-powered Digital Audio Workstation forked from LMMS (GPL-2.0, C++/Qt6).                                                                                          │
+│ It targets all skill levels with a tiered UX, operates on a freemium+subscription model,                                                                                              │
+│ runs all AI 100% locally, and ships V1 with: Music Generation, Stem Splitting, Vocal                                                                                                  │
+│ Generation, AI Mixing/Mastering, Prompt Commands (AI that controls LMMS features via                                                                                                  │
+│ natural language), and Code-to-Music (generate music from code/data).                                                                                                                 │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Product Vision                                                                                                                                                                        │
+│                                                                                                                                                                                       │
+│ "The DAW that listens to you."                                                                                                                                                        │
+│                                                                                                                                                                                       │
+│ Wavy Labs layers AI features on top of a full-featured desktop DAW without replacing                                                                                                  │
+│ the traditional workflow. Users start simple (prompt → generate → done) and grow into                                                                                                 │
+│ advanced production. All AI runs locally — no data sent to servers, no ongoing API cost.                                                                                              │
+│                                                                                                                                                                                       │
+│ Tiers                                                                                                                                                                                 │
+│                                                                                                                                                                                       │
+│ ┌────────┬───────────┬────────────────────────────────────────────────────────┐                                                                                                       │
+│ │  Tier  │   Price   │                        Features                        │                                                                                                       │
+│ ├────────┼───────────┼────────────────────────────────────────────────────────┤                                                                                                       │
+│ │ Free   │ $0        │ Full DAW, 5 AI generations/day, 2-stem splitting       │                                                                                                       │
+│ ├────────┼───────────┼────────────────────────────────────────────────────────┤                                                                                                       │
+│ │ Pro    │ $9.99/mo  │ Unlimited AI gen, 6-stem split, vocal gen, mastering   │                                                                                                       │
+│ ├────────┼───────────┼────────────────────────────────────────────────────────┤                                                                                                       │
+│ │ Studio │ $24.99/mo │ All Pro + Code-to-Music, prompt commands, priority GPU │                                                                                                       │
+│ └────────┴───────────┴────────────────────────────────────────────────────────┘                                                                                                       │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Technology Stack                                                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ Base DAW                                                                                                                                                                              │
+│                                                                                                                                                                                       │
+│ - Fork: LMMS master branch (Qt6 build, -DWANT_QT6=ON)                                                                                                                                 │
+│ - Language: C++ (Qt6 for UI), Python (AI backend)                                                                                                                                     │
+│ - Build: CMake + Ninja, Conan 2.0 for C++ deps, pip/uv for Python deps                                                                                                                │
+│ - License: GPL-2.0 (open source required for distribution; AI backend is separate process = no contamination)                                                                         │
+│                                                                                                                                                                                       │
+│ AI Models (all local, all commercially licensed)                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ ┌─────────────────────────┬───────────────────────────────────────┬────────────┬──────┬────────────────┐                                                                              │
+│ │         Feature         │                 Model                 │  License   │ VRAM │     Speed      │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Music Generation        │ ACE-Step 1.5                          │ Apache 2.0 │ 4GB  │ ~20s/4min song │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Music Generation (fast) │ DiffRhythm 2                          │ Apache 2.0 │ 8GB  │ ~10s/full song │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Stem Splitting          │ Demucs v4 (htdemucs_ft)               │ MIT        │ 4GB  │ Real-time      │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Vocal Generation        │ Bark (Suno, MIT)                      │ MIT        │ 6GB  │ Moderate       │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ AI Mixing/Mastering     │ Custom ONNX pipeline                  │ Apache 2.0 │ 2GB  │ Fast           │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Prompt Commands         │ Local LLM (Mistral 7B / Llama 3.1 8B) │ Apache 2.0 │ 8GB  │ ~1-2s          │                                                                              │
+│ ├─────────────────────────┼───────────────────────────────────────┼────────────┼──────┼────────────────┤                                                                              │
+│ │ Code to Music           │ ACE-Step 1.5 + custom parser          │ Apache 2.0 │ 4GB  │ ~20s           │                                                                              │
+│ └─────────────────────────┴───────────────────────────────────────┴────────────┴──────┴────────────────┘                                                                              │
+│                                                                                                                                                                                       │
+│ AI Inference Runtime                                                                                                                                                                  │
+│                                                                                                                                                                                       │
+│ - Primary: ONNX Runtime (cross-platform: CUDA, DirectML, CoreML, CPU)                                                                                                                 │
+│ - Fallback: CPU-only mode for users without GPU                                                                                                                                       │
+│ - Model manager: Download/update models on first run (models not bundled in installer)                                                                                                │
+│                                                                                                                                                                                       │
+│ IPC Architecture (C++ ↔ Python)                                                                                                                                                       │
+│                                                                                                                                                                                       │
+│ [Wavy Labs C++/Qt6 UI]                                                                                                                                                                │
+│       │                                                                                                                                                                               │
+│       │ ZeroMQ (TCP socket, localhost:5555)                                                                                                                                           │
+│       │ JSON-RPC protocol                                                                                                                                                             │
+│       │                                                                                                                                                                               │
+│ [AI Backend (Python)]                                                                                                                                                                 │
+│       ├── ACE-Step 1.5                                                                                                                                                                │
+│       ├── DiffRhythm 2                                                                                                                                                                │
+│       ├── Demucs v4                                                                                                                                                                   │
+│       ├── Bark                                                                                                                                                                        │
+│       ├── Mistral 7B (prompt commands)                                                                                                                                                │
+│       └── ONNX mixing pipeline                                                                                                                                                        │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Repository Structure                                                                                                                                                                  │
+│                                                                                                                                                                                       │
+│ wavy-labs/                                                                                                                                                                            │
+│ ├── lmms-core/              # Git submodule: forked LMMS (C++/Qt6)                                                                                                                    │
+│ │   └── src/gui/                                                                                                                                                                      │
+│ │       ├── MainWindow.cpp  # Add Wavy Labs toolbar + AI panel toggle                                                                                                                 │
+│ │       └── SubWindow.cpp   # Reused for AI panel MDI window                                                                                                                          │
+│ ├── wavy-ui/                # New Qt6 panels (C++)                                                                                                                                    │
+│ │   ├── AIPanel/            # Main AI generation panel (MDI SubWindow)                                                                                                                │
+│ │   ├── StemSplitter/       # Stem split UI panel                                                                                                                                     │
+│ │   ├── PromptBar/          # Natural language command bar                                                                                                                            │
+│ │   ├── CodeToMusic/        # Code editor + music output panel                                                                                                                        │
+│ │   └── ModelManager/       # Model download/update manager                                                                                                                           │
+│ ├── wavy-ai/                # Python AI backend                                                                                                                                       │
+│ │   ├── server.py           # ZeroMQ JSON-RPC server entry point                                                                                                                      │
+│ │   ├── models/                                                                                                                                                                       │
+│ │   │   ├── ace_step.py     # ACE-Step 1.5 wrapper                                                                                                                                    │
+│ │   │   ├── diffrhythm.py   # DiffRhythm 2 wrapper                                                                                                                                    │
+│ │   │   ├── demucs.py       # Demucs v4 wrapper                                                                                                                                       │
+│ │   │   ├── bark.py         # Bark vocal gen wrapper                                                                                                                                  │
+│ │   │   ├── mixer.py        # ONNX mixing pipeline                                                                                                                                    │
+│ │   │   └── prompt_cmd.py   # Mistral 7B prompt command handler                                                                                                                       │
+│ │   └── requirements.txt                                                                                                                                                              │
+│ ├── wavy-installer/         # NSIS (Windows) / DMG (macOS) / AppImage (Linux)                                                                                                         │
+│ ├── data/                                                                                                                                                                             │
+│ │   └── themes/wavy-dark/   # Custom Wavy Labs QSS theme                                                                                                                              │
+│ └── CMakeLists.txt          # Top-level build                                                                                                                                         │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Feature Specifications                                                                                                                                                                │
+│                                                                                                                                                                                       │
+│ 1. AI Generation Panel                                                                                                                                                                │
+│                                                                                                                                                                                       │
+│ - MDI SubWindow in LMMS workspace (toggle via toolbar button)                                                                                                                         │
+│ - Text prompt field → generate → audio clip inserted as new SampleTrack                                                                                                               │
+│ - Model selector (ACE-Step / DiffRhythm)                                                                                                                                              │
+│ - Genre, tempo, key, duration controls                                                                                                                                                │
+│ - "Continue from selection" mode (extend existing clip)                                                                                                                               │
+│ - Generation history with preview player                                                                                                                                              │
+│ - Free tier: counter showing remaining daily generations                                                                                                                              │
+│                                                                                                                                                                                       │
+│ 2. Stem Splitter                                                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ - Right-click any SampleTrack clip → "Split Stems"                                                                                                                                    │
+│ - OR dedicated Stem Splitter panel                                                                                                                                                    │
+│ - Select 2, 4, or 6 stems (Pro: 6 stems = vocals, drums, bass, piano, guitar, other)                                                                                                  │
+│ - Output: each stem becomes a new SampleTrack, color-coded                                                                                                                            │
+│ - Progress bar with estimated time                                                                                                                                                    │
+│ - Uses Demucs v4 htdemucs_ft model                                                                                                                                                    │
+│                                                                                                                                                                                       │
+│ 3. Vocal Generation                                                                                                                                                                   │
+│                                                                                                                                                                                       │
+│ - In the AI Panel, switch to "Vocal" mode                                                                                                                                             │
+│ - Input: lyrics text + voice style selector                                                                                                                                           │
+│ - Output: .wav file inserted as SampleTrack                                                                                                                                           │
+│ - Uses Bark (MIT) with voice presets                                                                                                                                                  │
+│ - Pro feature                                                                                                                                                                         │
+│                                                                                                                                                                                       │
+│ 4. AI Mixing / Mastering                                                                                                                                                              │
+│                                                                                                                                                                                       │
+│ - Right-click Mixer channel → "AI Mix Assist"                                                                                                                                         │
+│ - OR "Master" button in Mixer view                                                                                                                                                    │
+│ - Analyzes all tracks, suggests EQ/compression/reverb settings                                                                                                                        │
+│ - "Reference track" mode: match the sonic profile of an uploaded reference                                                                                                            │
+│ - Applies settings as LMMS AutomationPatterns (editable, not destructive)                                                                                                             │
+│ - Pro feature                                                                                                                                                                         │
+│                                                                                                                                                                                       │
+│ 5. Prompt Commands (AI that controls LMMS)                                                                                                                                            │
+│                                                                                                                                                                                       │
+│ Natural language interface that controls the DAW:                                                                                                                                     │
+│                                                                                                                                                                                       │
+│ Example commands:                                                                                                                                                                     │
+│ - "Add a 4-bar drum loop at 120 BPM"                                                                                                                                                  │
+│ - "Transpose the selected clip up 3 semitones"                                                                                                                                        │
+│ - "Set the reverb on channel 3 to 40%"                                                                                                                                                │
+│ - "Create a verse-chorus-verse arrangement"                                                                                                                                           │
+│ - "Duplicate track 2 and pan it hard right"                                                                                                                                           │
+│                                                                                                                                                                                       │
+│ Architecture:                                                                                                                                                                         │
+│ - Prompt bar (always visible, Cmd+K shortcut)                                                                                                                                         │
+│ - Mistral 7B parses intent → structured JSON action                                                                                                                                   │
+│ - C++ action dispatcher maps JSON → LMMS Engine API calls                                                                                                                             │
+│ - Action schema covers: track management, clip editing, mixer controls, piano roll, automation                                                                                        │
+│ - Studio tier feature                                                                                                                                                                 │
+│                                                                                                                                                                                       │
+│ 6. Code to Music                                                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ Convert code or structured data into music:                                                                                                                                           │
+│                                                                                                                                                                                       │
+│ Input modes:                                                                                                                                                                          │
+│ - Python/JS snippet → parse data structures/loops → map to musical parameters                                                                                                         │
+│ - CSV/JSON data → sonification (map columns to pitch, velocity, tempo)                                                                                                                │
+│ - MIDI-like DSL → custom text format for describing music programmatically                                                                                                            │
+│                                                                                                                                                                                       │
+│ Example:                                                                                                                                                                              │
+│ # User writes this in Wavy Labs Code Editor                                                                                                                                           │
+│ track("drums").pattern([1,0,0,1,0,0,1,0], bpm=140)                                                                                                                                    │
+│ track("bass").melody([C3, E3, G3, C4], duration="quarter")                                                                                                                            │
+│ track("synth").generate("ambient pad", key="C minor")                                                                                                                                 │
+│                                                                                                                                                                                       │
+│ Architecture:                                                                                                                                                                         │
+│ - Monaco code editor embedded in Qt (via QWebEngineView)                                                                                                                              │
+│ - Python interpreter in AI backend parses DSL                                                                                                                                         │
+│ - Outputs MIDI + audio clips back to LMMS tracks                                                                                                                                      │
+│ - Studio tier feature                                                                                                                                                                 │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ LMMS Fork Modifications                                                                                                                                                               │
+│                                                                                                                                                                                       │
+│ Files to Modify in lmms-core/                                                                                                                                                         │
+│                                                                                                                                                                                       │
+│ ┌───────────────────────────────┬────────────────────────────────────────────────────────────────────┐                                                                                │
+│ │             File              │                               Change                               │                                                                                │
+│ ├───────────────────────────────┼────────────────────────────────────────────────────────────────────┤                                                                                │
+│ │ src/gui/MainWindow.cpp        │ Add Wavy Labs toolbar section, AI panel toggle buttons, prompt bar │                                                                                │
+│ ├───────────────────────────────┼────────────────────────────────────────────────────────────────────┤                                                                                │
+│ │ src/gui/MainWindow.h          │ Declare new panel pointers and toggle slots                        │                                                                                │
+│ ├───────────────────────────────┼────────────────────────────────────────────────────────────────────┤                                                                                │
+│ │ data/themes/default/style.css │ Override with Wavy Labs dark theme (or add new theme)              │                                                                                │
+│ ├───────────────────────────────┼────────────────────────────────────────────────────────────────────┤                                                                                │
+│ │ CMakeLists.txt (root)         │ Link wavy-ui modules                                               │                                                                                │
+│ ├───────────────────────────────┼────────────────────────────────────────────────────────────────────┤                                                                                │
+│ │ src/core/Song.cpp             │ Add hook for programmatic track/clip insertion from AI backend     │                                                                                │
+│ └───────────────────────────────┴────────────────────────────────────────────────────────────────────┘                                                                                │
+│                                                                                                                                                                                       │
+│ New Files to Add                                                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ ┌───────────────────────────────────────────────┬──────────────────────────────────────────────┐                                                                                      │
+│ │                     File                      │                   Purpose                    │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/AIPanel/AIPanel.cpp/.h                │ Main AI generation MDI panel                 │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/StemSplitter/StemSplitterPanel.cpp/.h │ Stem split UI                                │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/PromptBar/PromptBar.cpp/.h            │ Prompt command bar widget                    │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/CodeToMusic/CodeEditor.cpp/.h         │ Monaco editor wrapper                        │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/ModelManager/ModelManager.cpp/.h      │ Model download/update                        │                                                                                      │
+│ ├───────────────────────────────────────────────┼──────────────────────────────────────────────┤                                                                                      │
+│ │ wavy-ui/IPC/AIClient.cpp/.h                   │ ZeroMQ client for C++ → Python communication │                                                                                      │
+│ └───────────────────────────────────────────────┴──────────────────────────────────────────────┘                                                                                      │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ UI / Branding                                                                                                                                                                         │
+│                                                                                                                                                                                       │
+│ Wavy Labs Design Language                                                                                                                                                             │
+│                                                                                                                                                                                       │
+│ - Theme: Deep dark background (#0d0d14), accent color electric blue/violet (#7c5cbf + #4fc3f7)                                                                                        │
+│ - Waveform motif in logo and splash screen                                                                                                                                            │
+│ - Custom QSS stylesheet applied as a named theme wavy-dark                                                                                                                            │
+│ - Smooth gradients on panels, subtle glow on active elements                                                                                                                          │
+│ - Custom app icon, splash screen, about dialog                                                                                                                                        │
+│                                                                                                                                                                                       │
+│ Layout                                                                                                                                                                                │
+│                                                                                                                                                                                       │
+│ ┌─────────────────────────────────────────────────────────┐                                                                                                                           │
+│ │  [≋ WAVY LABS]  [File] [Edit] [View]   [⚡ AI] [⚙]   │  ← Main toolbar                                                                                                              │
+│ │─────────────────────────────────────────────────────────│                                                                                                                           │
+│ │ ┌──Sidebar──┐  ┌──────── MDI Workspace ──────────────┐ │                                                                                                                            │
+│ │ │ Instruments│  │  ┌── Song Editor ───────────────┐  │ │                                                                                                                            │
+│ │ │ Samples   │  │  │  [Track 1] ████ ██  ███      │  │ │                                                                                                                             │
+│ │ │ Presets   │  │  │  [Track 2] ██ ████  ██       │  │ │                                                                                                                             │
+│ │ │ AI Models │  │  └─────────────────────────────┘  │ │                                                                                                                              │
+│ │ └───────────┘  │  ┌── AI Panel ─────────────────┐  │ │                                                                                                                              │
+│ │                │  │  🎵 Generate Music           │  │ │                                                                                                                             │
+│ │                │  │  [___prompt_______________]  │  │ │                                                                                                                             │
+│ │                │  │  [Generate] [Stems] [Vocal]  │  │ │                                                                                                                             │
+│ │                │  └─────────────────────────────┘  │ │                                                                                                                              │
+│ │                └────────────────────────────────────┘ │                                                                                                                             │
+│ │─────────────────────────────────────────────────────────│                                                                                                                           │
+│ │ [Cmd+K: Ask Wavy Labs anything...]               [Pro] │  ← Prompt bar                                                                                                              │
+│ └─────────────────────────────────────────────────────────┘                                                                                                                           │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Development Phases                                                                                                                                                                    │
+│                                                                                                                                                                                       │
+│ Phase 0 — Foundation (Weeks 1-3)                                                                                                                                                      │
+│                                                                                                                                                                                       │
+│ - Fork LMMS master (Qt6 branch), confirm builds on Win/Mac/Linux                                                                                                                      │
+│ - Set up monorepo structure (lmms-core as submodule)                                                                                                                                  │
+│ - Apply Wavy Labs branding (theme, splash screen, app name/icon)                                                                                                                      │
+│ - Build Python AI backend scaffolding (ZeroMQ server, health check)                                                                                                                   │
+│ - Implement AIClient.cpp IPC layer (C++ side)                                                                                                                                         │
+│ - Set up model manager: download ACE-Step 1.5 + Demucs v4 on first launch                                                                                                             │
+│                                                                                                                                                                                       │
+│ Phase 1 — Core AI Features (Weeks 4-8)                                                                                                                                                │
+│                                                                                                                                                                                       │
+│ - AI Generation Panel (MDI SubWindow, text prompt → audio → SampleTrack)                                                                                                              │
+│ - Stem Splitter (right-click context menu + panel, Demucs v4, 4-stem free / 6-stem Pro)                                                                                               │
+│ - Free tier usage limits (local SQLite counter, daily reset)                                                                                                                          │
+│ - Model switching (ACE-Step ↔ DiffRhythm)                                                                                                                                             │
+│ - Progress indicators and async generation (non-blocking UI)                                                                                                                          │
+│                                                                                                                                                                                       │
+│ Phase 2 — Pro Features (Weeks 9-13)                                                                                                                                                   │
+│                                                                                                                                                                                       │
+│ - Vocal Generation (Bark, lyrics input, voice presets)                                                                                                                                │
+│ - AI Mixing / Mastering (ONNX pipeline, reference track mode)                                                                                                                         │
+│ - License gate (free vs Pro, local license key validation)                                                                                                                            │
+│ - Pro subscription backend (Stripe integration, license server)                                                                                                                       │
+│                                                                                                                                                                                       │
+│ Phase 3 — Studio Features (Weeks 14-18)                                                                                                                                               │
+│                                                                                                                                                                                       │
+│ - Prompt Commands (Mistral 7B, natural language → LMMS API actions)                                                                                                                   │
+│ - Code to Music (Monaco editor, Python DSL, sonification)                                                                                                                             │
+│ - Action schema for full LMMS control via prompt                                                                                                                                      │
+│ - Studio tier gating                                                                                                                                                                  │
+│                                                                                                                                                                                       │
+│ Phase 4 — Polish & Launch (Weeks 19-22)                                                                                                                                               │
+│                                                                                                                                                                                       │
+│ - Installer builds: NSIS (Windows), DMG (macOS), AppImage (Linux)                                                                                                                     │
+│ - Model download UI (progress, checksums, disk space warnings)                                                                                                                        │
+│ - Onboarding flow for new users                                                                                                                                                       │
+│ - Crash reporting (Sentry)                                                                                                                                                            │
+│ - Documentation site                                                                                                                                                                  │
+│ - Public beta launch                                                                                                                                                                  │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Infrastructure                                                                                                                                                                        │
+│                                                                                                                                                                                       │
+│ License Validation (Local)                                                                                                                                                            │
+│                                                                                                                                                                                       │
+│ - License key stored encrypted in OS keychain                                                                                                                                         │
+│ - Validated locally against HMAC signature (no internet required for validation)                                                                                                      │
+│ - Grace period: 7 days offline before re-validation required                                                                                                                          │
+│                                                                                                                                                                                       │
+│ Subscription Backend                                                                                                                                                                  │
+│                                                                                                                                                                                       │
+│ - Stripe for payment processing                                                                                                                                                       │
+│ - Lightweight license server (FastAPI + PostgreSQL) — only called at purchase/activation                                                                                              │
+│ - No telemetry, no usage tracking (privacy-first positioning)                                                                                                                         │
+│                                                                                                                                                                                       │
+│ Model Distribution                                                                                                                                                                    │
+│                                                                                                                                                                                       │
+│ - Models hosted on Hugging Face Hub (free CDN)                                                                                                                                        │
+│ - SHA-256 checksums verified before load                                                                                                                                              │
+│ - Incremental updates (only download changed model shards)                                                                                                                            │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Key Risks & Mitigations                                                                                                                                                               │
+│                                                                                                                                                                                       │
+│ ┌────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐                                      │
+│ │              Risk              │                                                 Mitigation                                                  │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ GPL-2.0 forces open source     │ Keep AI backend (Python) as separate process; core DAW stays open source; monetize via model access/cloud   │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ AI model quality inconsistency │ Multiple generation attempts, user selects best result                                                      │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ GPU requirements bar entry     │ CPU fallback mode (slower but functional), cloud tier roadmap                                               │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ LMMS 1.3 alpha instability     │ Pin to a specific stable commit, maintain our own patch set                                                 │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ Competing with Suno Studio     │ Differentiate: local/private, no subscription for base DAW, open source core, full traditional DAW features │                                      │
+│ ├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤                                      │
+│ │ LMMS core team rejects PRs     │ Fork is independent; no need to upstream everything                                                         │                                      │
+│ └────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘                                      │
+│                                                                                                                                                                                       │
+│ ---                                                                                                                                                                                   │
+│ Success Metrics (6 months post-launch)                                                                                                                                                │
+│                                                                                                                                                                                       │
+│ - 10,000 downloads                                                                                                                                                                    │
+│ - 500 Pro subscribers ($5,000 MRR)                                                                                                                                                    │
+│ - 50 Studio subscribers ($1,250 MRR)                                                                                                                                                  │
+│ - <2% crash rate                                                                                                                                                                      │
+│ 4.0 stars on product review sites  

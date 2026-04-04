@@ -1,0 +1,172 @@
+name: Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Windows ────────────────────────────────────────────────────────────────
+  build-windows:
+    name: Build (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.6.*'
+          host: windows
+          target: desktop
+          arch: win64_msvc2019_64
+          modules: 'qtwebengine qtsvg qtnetwork'
+
+      - name: Install ZeroMQ (vcpkg)
+        run: |
+          vcpkg install zeromq:x64-windows cppzmq:x64-windows
+          echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" >> $env:GITHUB_ENV
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G "Ninja" `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DWANT_QT6=ON `
+            -DWAVY_BUILD_LMMS_CORE=OFF `
+            "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            "-DWAVY_LICENSE_HMAC_SECRET=${{ secrets.WAVY_HMAC_SECRET }}"
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Build NSIS installer
+        run: |
+          choco install nsis --no-progress -y
+          cmake --build build --target installer --config Release
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wavy-labs-windows
+          path: |
+            build/wavy-labs.exe
+            wavy-installer/WavyLabs-*-Setup.exe
+          if-no-files-found: warn
+
+  # ── macOS ──────────────────────────────────────────────────────────────────
+  build-macos:
+    name: Build (macOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.6.*'
+          host: mac
+          target: desktop
+          modules: 'qtwebengine qtsvg qtnetwork'
+
+      - name: Install ZeroMQ
+        run: brew install zeromq
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DWANT_QT6=ON \
+            -DWAVY_BUILD_LMMS_CORE=OFF \
+            -DWAVY_LICENSE_HMAC_SECRET="${{ secrets.WAVY_HMAC_SECRET }}"
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Generate macOS icon + DMG
+        run: |
+          # Convert PNG → ICNS using iconutil
+          mkdir -p /tmp/AppIcon.iconset
+          for size in 16 32 128 256 512; do
+            sips -z $size $size data/icons/wavy-labs-1024.png \
+              --out /tmp/AppIcon.iconset/icon_${size}x${size}.png
+            sips -z $((size*2)) $((size*2)) data/icons/wavy-labs-1024.png \
+              --out /tmp/AppIcon.iconset/icon_${size}x${size}@2x.png
+          done
+          iconutil -c icns /tmp/AppIcon.iconset -o data/icons/wavy-labs.icns
+          # Build DMG
+          brew install create-dmg
+          cd wavy-installer && bash macos.sh
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wavy-labs-macos
+          path: |
+            build/wavy-labs
+            wavy-installer/WavyLabs-*-macOS.dmg
+
+  # ── Linux ──────────────────────────────────────────────────────────────────
+  build-linux:
+    name: Build (Linux)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build pkg-config \
+            libzmq3-dev \
+            libgl1-mesa-dev \
+            libxkbcommon-dev libxkbcommon-x11-dev \
+            libwayland-dev
+
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.6.*'
+          host: linux
+          target: desktop
+          modules: 'qtwebengine qtsvg qtnetwork'
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DWANT_QT6=ON \
+            -DWAVY_BUILD_LMMS_CORE=OFF \
+            -DWAVY_LICENSE_HMAC_SECRET="${{ secrets.WAVY_HMAC_SECRET }}"
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Build AppImage
+        run: |
+          # Install linuxdeployqt and appimagetool
+          wget -q -O /usr/local/bin/linuxdeployqt \
+            "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          chmod +x /usr/local/bin/linuxdeployqt
+          wget -q -O /usr/local/bin/appimagetool \
+            "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod +x /usr/local/bin/appimagetool
+          cp build/wavy-labs build/
+          cd wavy-installer && bash linux-appimage.sh
+        continue-on-error: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wavy-labs-linux
+          path: |
+            build/wavy-labs
+            wavy-installer/WavyLabs-*-x86_64.AppImage
